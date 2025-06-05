@@ -1,6 +1,7 @@
-import { Streamchat } from 'stream-chat';
+import pkg from 'stream-chat';
 import "dotenv/config";
 
+const { StreamChat: Streamchat } = pkg;
 const apiKey = process.env.STEAM_API_KEY;
 const apiSecret = process.env.STEAM_API_SECRET;
 

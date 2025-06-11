@@ -21,8 +21,11 @@ export async function getRecommendedUsers(req, res) {
 
 export async function getMyFriends(req, res) {
     try {
-        const user = await user.findById(req.user.id).select('friends').populate('friends',
-            'username, profilePic nativeLanguage leraningLanguage bio isOnboarded');
+        const user = await user.findById(req.user.id)
+        .select('friends')
+        .populate('friends','username profilePic nativeLanguage learningLanguage bio isOnboarded');
+
+        res.status(200).json(user.friends);
     } catch (error) {
         console.error("Error fetching friends:", error);
         return res.status(500).json({ message: "Internal server error" });

@@ -8,25 +8,17 @@ import CallPage from './pages/CallPage.jsx';
 import ChatPage from './pages/ChatPage.jsx';
 import NotificationsPage from './pages/NotificationsPage.jsx';
 import toast, { Toaster } from 'react-hot-toast';
-import { useQuery } from '@tanstack/react-query';
-import { axiosInstance } from './lib/axios.js';
+import PageLoader from './components/PageLoader.jsx';
+import useAuthUser from './hooks/useAuthUser.js';
 
 
 const App = () => {
 
   //tanstack query crash course
 
-  const { data: authData, isLoading, error } = useQuery({
-    queryKey: ['authUser'],
+  const { isLoading, authUser } = useAuthUser();
 
-    queryFn: async () => {
-      const res = await axiosInstance.get("/auth/me");
-      return res.data;
-    },
-    retry: false, // Retry once on failure
-  });
-
-  const authUser = authData?.user;
+  if(isLoading) return <PageLoader />
 
   return (
     <div className='h-screen' data-theme="coffee">

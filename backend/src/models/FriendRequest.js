@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
 
-const friendRequestSchema = new mongoose.SchemaTypes({
+const friendRequestSchema = new mongoose.Schema({
     sender: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
     recipient: {
-        type: mongoose.SchemaTypes.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
@@ -21,6 +21,6 @@ const friendRequestSchema = new mongoose.SchemaTypes({
     timestamps: true,
 });
 
-const FriendRequest = mongoose.models("FriendRequest", friendRequestSchema);
+const FriendRequest = mongoose.model("FriendRequest", friendRequestSchema);
 
 export default FriendRequest;

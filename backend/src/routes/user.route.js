@@ -1,11 +1,13 @@
 import express from 'express';
-import { protectRoute } from '../middleware/auth.middleware';
+import { protectRoute } from '../middleware/auth.middleware.js';
 import { 
     getRecommendedUsers, 
     getMyFriends,
     sendFriendRequest,
-    acceptFriendRequest 
-} from '../controllers/user.controller';
+    acceptFriendRequest ,
+    getFriendRequests,
+    getOutgoingFriendRequests
+} from '../controllers/user.controllers.js';
 
 const router = express.Router();
 

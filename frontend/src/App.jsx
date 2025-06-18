@@ -7,7 +7,7 @@ import LoginPage from './pages/LoginPage.jsx';
 import CallPage from './pages/CallPage.jsx';
 import ChatPage from './pages/ChatPage.jsx';
 import NotificationsPage from './pages/NotificationsPage.jsx';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import PageLoader from './components/PageLoader.jsx';
 import useAuthUser from './hooks/useAuthUser.js';
 
@@ -28,8 +28,8 @@ const App = () => {
 
   return (
     <div className='h-screen' data-theme="dark">
-      <button onClick={() => toast.success('Welcome to Meetra')
-      }>Create a Toast</button>
+      {/* <button onClick={() => toast.success('Welcome to Meetra')
+      }>Welcome</button> */}
       <Routes>
         <Route 
           path="/" 
@@ -46,7 +46,14 @@ const App = () => {
         <Route path="/notifications" element={isAuthenticated ? <NotificationsPage /> : <Navigate to='/login' />} />
         <Route path="/call" element={isAuthenticated ? <CallPage /> : <Navigate to='/login' />} />
         <Route path="/chat" element={isAuthenticated ? <ChatPage /> : <Navigate to='/login' />} />
-        <Route path="/onboarding" element={isAuthenticated ? <OnboardingPage /> : <Navigate to='/login' />} />
+        <Route path="/onboarding" 
+               element={isAuthenticated ? (
+                  !isOnboarded ? (
+                    <OnboardingPage />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+               ): <Navigate to='/login' />} />
       </Routes>
 
       <Toaster />

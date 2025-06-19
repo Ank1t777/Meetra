@@ -5,9 +5,30 @@ export const signup = async (signupData) => {
       return response.data; 
 }
 
+export const login = async (loginData) => {
+    const response = await axiosInstance.post("/auth/login", loginData);
+    return response.data;
+}
+
+export const logout = async (logoutData) => {
+    try {
+        const response = await axiosInstance.post("/auth/logout", logoutData);
+        return response.data;
+    } catch (error) {
+        console.log(logoutData.target)
+        console.error("Error in logout:", error);
+        throw error;
+    }
+};
+
 export const getAuthUser = async () => {
-    const res = await axiosInstance.get("/auth/me");
-    return res.data;
+   try {
+        const res = await axiosInstance.get("/auth/me");
+        return res.data;
+    } catch (error) {
+        console.log("Error in getAuthUser:", error);
+        return null;
+    }
 }
 
 export const completeOnboarding = async (userData) => {

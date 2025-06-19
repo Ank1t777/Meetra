@@ -10,13 +10,15 @@ import NotificationsPage from './pages/NotificationsPage.jsx';
 import { Toaster } from 'react-hot-toast';
 import PageLoader from './components/PageLoader.jsx';
 import useAuthUser from './hooks/useAuthUser.js';
-
+import Layout from './components/Layout.jsx';
+import { useThemeStore } from './store/useThemeStore.js';
 
 const App = () => {
 
   //tanstack query 
 
   const { isLoading, authUser } = useAuthUser();
+  const { theme } = useThemeStore();
 
   const isAuthenticated = Boolean(authUser);
   const isOnboarded = authUser?.isOnboarded;
@@ -27,7 +29,7 @@ const App = () => {
   console.log(`onboard: ${isOnboarded}`);
 
   return (
-    <div className='h-screen' data-theme="dark">
+    <div className='h-screen' data-theme={theme}>
       {/* <button onClick={() => toast.success('Welcome to Meetra')
       }>Welcome</button> */}
       <Routes>
@@ -35,14 +37,18 @@ const App = () => {
           path="/" 
           element={
             isAuthenticated && isOnboarded ? (
+            <Layout showSidebar={true}>
               <HomePage />
+            </Layout>
             ) : (
               <Navigate to={!isAuthenticated ? '/login' : '/onboarding'} />
             )
           } 
         />
-        <Route path="/signup" element={!isAuthenticated ? <SignupPage /> : <Navigate to='/' />} />
-        <Route path="/login" element={!isAuthenticated ? <LoginPage /> : <Navigate to='/' />} />
+        <Route path="/signup" element={!isAuthenticated ? <SignupPage /> : <Navigate to={isOnboarded ? "/" : "/onboarding"} />} />
+        <Route 
+          path="/login" 
+          element={!isAuthenticated ? <LoginPage /> : <Navigate to={isOnboarded ? "/" : "/onboarding"} />} />
         <Route path="/notifications" element={isAuthenticated ? <NotificationsPage /> : <Navigate to='/login' />} />
         <Route path="/call" element={isAuthenticated ? <CallPage /> : <Navigate to='/login' />} />
         <Route path="/chat" element={isAuthenticated ? <ChatPage /> : <Navigate to='/login' />} />

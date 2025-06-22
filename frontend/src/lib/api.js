@@ -60,3 +60,13 @@ export async function getOutgoingFriendReqs() {
   const response = await axiosInstance.get("/users/outgoing-friend-requests");
   return response.data;
 }
+
+export const getFriendRequests = async () => {
+    const response = await axiosInstance.get('/users/friend-requests');
+    return response.data;
+}
+
+export const acceptFriendRequest = async (requestId) => {
+    const response = await axiosInstance.post(`/users/accept-friend-request/${requestId}`);
+    return response.data;
+}

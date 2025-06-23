@@ -48,6 +48,7 @@ const HomePage = () => {
       setOutgoingRequestsIds(outgoingIds);
     }
   }, [outgoingFriendReqs]);
+
   console.log("Recommended users:", recommendedUsers);
 
   return (

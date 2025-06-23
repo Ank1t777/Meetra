@@ -37,7 +37,7 @@ export const completeOnboarding = async (userData) => {
 }
 
 export const getUserFriends = async () => {
-    const response = await axiosInstance.get('/users/friends');
+    const response = await axiosInstance.get('/user/friends');
     return response.data;
 }
 
@@ -47,27 +47,27 @@ export const getRecommendedUsers = async () => {
 }
 
 export const outgoingFriendRequests = async () => {
-    const response = await axiosInstance.get('/users/outgoing-friend-requests');
+    const response = await axiosInstance.get('/user/outgoing-friend-requests');
     return response.data;
 }
 
 export const sendFriendRequest = async (userId) => {
-    const response = await axiosInstance.post(`/users/friend-request/${userId}`);
+    const response = await axiosInstance.post(`/user/friend-request/${userId}`);
     return response.data;
 }
 
 export async function getOutgoingFriendReqs() {
-  const response = await axiosInstance.get("/users/outgoing-friend-requests");
+  const response = await axiosInstance.get("/user/outgoing-friend-requests");
   return response.data;
 }
 
 export const getFriendRequests = async () => {
-    const response = await axiosInstance.get('/users/friend-requests');
+    const response = await axiosInstance.get('/user/friend-requests');
     return response.data;
 }
 
 export const acceptFriendRequest = async (requestId) => {
-    const response = await axiosInstance.post(`/users/accept-friend-request/${requestId}`);
+    const response = await axiosInstance.post(`/user/accept-friend-request/${requestId}`);
     return response.data;
 }
 

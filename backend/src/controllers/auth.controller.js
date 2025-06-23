@@ -9,7 +9,7 @@ export async function signup(req, res) {
         if (!username || !email || !password) {
             return res.status(400).json({ message: "All fields are required" });
         }
-        if (password.length < 6) {
+        if (password.length <= 6) {
             return res.status(400).json({ message: "Password must be at least 6 characters long" });
         }
 
@@ -25,7 +25,7 @@ export async function signup(req, res) {
             return res.status(400).json({ message: "User with this email already exists" });    
         }
 
-        const index = Math.floor(Math.random() * 100) + 1;
+        const index = Math.floor(Math.random() * 100);
         const randomAvatar = `https://avatar.iran.liara.run/public/${index}.png`;
 
         const newUser = await User.create({

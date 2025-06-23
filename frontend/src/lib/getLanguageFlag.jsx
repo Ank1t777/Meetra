@@ -1,10 +1,11 @@
-// src/components/LanguageFlag.jsx
-import { LANGUAGE_TO_FLAG } from "../constants";
+import { LANGUAGE_TO_FLAG } from "../constants/index.js";
 
-const LanguageFlag = ({ language }) => {
+export default function getLanguageFlag(language) {
   if (!language) return null;
+
   const langLower = language.toLowerCase();
   const countryCode = LANGUAGE_TO_FLAG[langLower];
+
   if (countryCode) {
     return (
       <img
@@ -15,6 +16,4 @@ const LanguageFlag = ({ language }) => {
     );
   }
   return null;
-};
-
-export default LanguageFlag;
+}

@@ -42,7 +42,7 @@ export const getUserFriends = async () => {
 }
 
 export const getRecommendedUsers = async () => {
-    const response = await axiosInstance.get('/users/recommended');
+    const response = await axiosInstance.get('/user');
     return response.data;
 }
 
@@ -68,5 +68,10 @@ export const getFriendRequests = async () => {
 
 export const acceptFriendRequest = async (requestId) => {
     const response = await axiosInstance.post(`/users/accept-friend-request/${requestId}`);
+    return response.data;
+}
+
+export const getStreamToken = async () => {
+    const response = await axiosInstance.get('/stream/token');
     return response.data;
 }

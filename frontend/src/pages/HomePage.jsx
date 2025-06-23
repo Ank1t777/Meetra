@@ -7,13 +7,13 @@ import {
   sendFriendRequest,
 } from "../lib/api";
 import { Link } from "react-router";
-import { CheckCircleIcon, MapPinIcon, UserPlusIcon, UsersIcon } from "lucide-react";
+import { CheckCircleIcon, MapPinIcon, User, UserPlusIcon, UsersIcon } from "lucide-react";
 
 import { capitialize } from "../lib/utils";
 
 import FriendCard from "../components/FriendCard";
 import NoFriendsFound from "../components/NoFriendsFound";
-import LanguageFlag from "../lib/languageUtils.jsx";
+import getLanguageFlag from "../lib/getLanguageFlag"; 
 
 const HomePage = () => {
   const queryClient = useQueryClient();
@@ -48,6 +48,7 @@ const HomePage = () => {
       setOutgoingRequestsIds(outgoingIds);
     }
   }, [outgoingFriendReqs]);
+  console.log("Recommended users:", recommendedUsers);
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -68,19 +69,20 @@ const HomePage = () => {
           <NoFriendsFound />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {friends.map((friend) => (
-              <FriendCard key={friend._id} friend={friend} />
-            ))}
+            {
+              friends.map((friend) => (
+                <FriendCard key={friend._id} friend={friend} />
+              ))
+            }
           </div>
         )}
-
         <section>
           <div className="mb-6 sm:mb-8">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex flx-col sm:flex-row items-staart sm:items-center justify-between gap-4">
               <div>
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Meet New Learners</h2>
                 <p className="opacity-70">
-                  Discover perfect language exchange partners based on your profile
+                  Discover perfect language partners to practice with.
                 </p>
               </div>
             </div>
@@ -89,32 +91,31 @@ const HomePage = () => {
           {loadingUsers ? (
             <div className="flex justify-center py-12">
               <span className="loading loading-spinner loading-lg" />
-            </div>
-          ) : recommendedUsers.length === 0 ? (
+          </div>
+          ) : recommendedUsers.length === 0 ?  (
             <div className="card bg-base-200 p-6 text-center">
               <h3 className="font-semibold text-lg mb-2">No recommendations available</h3>
               <p className="text-base-content opacity-70">
-                Check back later for new language partners!
+                Check backe later or new language partners!
               </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {recommendedUsers.map((user) => {
-                const hasRequestBeenSent = outgoingRequestsIds.has(user._id);
-
+                const hasRequestSent = outgoingRequestsIds.has(user._id);
                 return (
-                  <div
-                    key={user._id}
+                  <div 
                     className="card bg-base-200 hover:shadow-lg transition-all duration-300"
+                    key={user._id}
                   >
                     <div className="card-body p-5 space-y-4">
                       <div className="flex items-center gap-3">
                         <div className="avatar size-16 rounded-full">
-                          <img src={user.profilePic} alt={user.fullName} />
+                          <img src={user.profilePic} alt={user.username} />
                         </div>
 
                         <div>
-                          <h3 className="font-semibold text-lg">{user.fullName}</h3>
+                          <h3 className="font-semibold text-lg">{user.username}</h3>
                           {user.location && (
                             <div className="flex items-center text-xs opacity-70 mt-1">
                               <MapPinIcon className="size-3 mr-1" />
@@ -123,51 +124,53 @@ const HomePage = () => {
                           )}
                         </div>
                       </div>
-
-                      {/* Languages with flags */}
                       <div className="flex flex-wrap gap-1.5">
                         <span className="badge badge-secondary">
-                          <LanguageFlag language={user.nativeLanguage} />
+                          {(() => {
+                            const flagUrl = getLanguageFlag(user.nativeLanguage);
+                            return flagUrl && <img src={flagUrl} alt="flag" className="h-3 mr-1 inline-block" />;
+                          })()}
                           Native: {capitialize(user.nativeLanguage)}
                         </span>
                         <span className="badge badge-outline">
-                          <LanguageFlag language={user.learningLanguage} />
+                          {(() => {
+                            const flagUrl = getLanguageFlag(user.learningLanguage);
+                            return flagUrl && <img src={flagUrl} alt="flag" className="h-3 mr-1 inline-block" />;
+                          })()}
                           Learning: {capitialize(user.learningLanguage)}
                         </span>
                       </div>
-
                       {user.bio && <p className="text-sm opacity-70">{user.bio}</p>}
-
-                      {/* Action button */}
                       <button
                         className={`btn w-full mt-2 ${
-                          hasRequestBeenSent ? "btn-disabled" : "btn-primary"
-                        } `}
+                          hasRequestSent ? "btn-disabled" : "btn-primary"
+                        }`}
                         onClick={() => sendRequestMutation(user._id)}
-                        disabled={hasRequestBeenSent || isPending}
+                        disabled={hasRequestSent || isPending}
                       >
-                        {hasRequestBeenSent ? (
+                        {hasRequestSent ? (
                           <>
-                            <CheckCircleIcon className="size-4 mr-2" />
+                            <CheckCircleIcon className="size-4 mr-2"/>
                             Request Sent
                           </>
                         ) : (
                           <>
-                            <UserPlusIcon className="size-4 mr-2" />
+                            <UserPlusIcon className="size-4 mr-2" /> 
                             Send Friend Request
                           </>
                         )}
                       </button>
                     </div>
                   </div>
-                );
+                )
               })}
             </div>
           )}
         </section>
       </div>
     </div>
-  );
+  )     
 };
 
 export default HomePage;
+

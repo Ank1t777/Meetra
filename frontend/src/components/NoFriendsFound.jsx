@@ -7,7 +7,6 @@ const NoFriendsFound = () => {
         <p className="text-base-content opacity-70">
             Connect with language partners below to start practicing together!
         </p>
-      No friends found
     </div>
   )
 }

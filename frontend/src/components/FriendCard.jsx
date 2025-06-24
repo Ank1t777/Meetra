@@ -2,6 +2,8 @@ import { Link } from "react-router";
 import getLanguageFlag from "../lib/getLanguageFlag"; 
 
 const FriendCard = ({ friend }) => {
+
+  if(!friend) return null;
   
   return (
     <div className="card bg-base-200 hover:shadow-md transition-shadow">

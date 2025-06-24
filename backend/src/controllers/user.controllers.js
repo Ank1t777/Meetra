@@ -25,7 +25,7 @@ export async function getRecommendedUsers(req, res) {
 
 export async function getMyFriends(req, res) {
     try {
-        const user = await user.findById(req.user.id)
+        const user = await User.findById(req.user.id)
         .select('friends')
         .populate('friends','username profilePic nativeLanguage learningLanguage bio isOnboarded');
 
@@ -68,6 +68,7 @@ export async function sendFriendRequest(req, res) {
             sender: myId,
             recipient: recipientId,
         });
+        await friendRequest.save();
         res.status(201).json(friendRequest);
     } catch(error) {
         console.error("Error sending friend request:", error);
@@ -79,7 +80,7 @@ export async function acceptFriendRequest(req, res) {
     try {
         const { id: requestId } = req.params;
 
-        const friendRequest = await FriendRequest.findBy(requestId);
+        const friendRequest = await FriendRequest.findById(requestId);
 
         if(!friendRequest) {
             return res.status(400).json({ message: "Friend request not found" });

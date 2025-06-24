@@ -19,8 +19,8 @@ const NotificationsPage = () => {
     },
   });
 
-  const incomingRequests = friendRequests?.incomingReqs || [];
-  const acceptedRequests = friendRequests?.acceptedReqs || [];
+  const incomingRequests = friendRequests?.incomingRequests || [];
+  const acceptedRequests = friendRequests?.acceptedRequests || [];
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -51,10 +51,10 @@ const NotificationsPage = () => {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <div className="avatar w-14 h-14 rounded-full bg-base-300">
-                              <img src={request.sender.profilePic} alt={request.sender.fullName} />
+                              <img src={request.sender.profilePic} alt={request.sender.username} />
                             </div>
                             <div>
-                              <h3 className="font-semibold">{request.sender.fullName}</h3>
+                              <h3 className="font-semibold">{request.sender.username}</h3>
                               <div className="flex flex-wrap gap-1.5 mt-1">
                                 <span className="badge badge-secondary badge-sm">
                                   Native: {request.sender.nativeLanguage}

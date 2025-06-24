@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route, Navigate } from 'react-router';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from './pages/HomePage.jsx';
 import SignupPage from './pages/SignupPage.jsx';
 import OnboardingPage from './pages/OnboardingPage.jsx';
@@ -59,9 +59,18 @@ const App = () => {
             <Navigate to={!isAuthenticated ? '/login' : '/onboarding'} />
           )} 
         />
-        <Route path="/call" element={isAuthenticated ? <CallPage /> : <Navigate to='/login' />} />
         <Route 
-          path="/chat"
+          path="/call/:callId" 
+          element={
+            isAuthenticated && isOnboarded ? (
+              <CallPage />
+            ) : (
+              <Navigate to={!isAuthenticated ? '/login' : '/onboarding'} />
+            )
+          }
+        />
+        <Route 
+          path="/chat/:chatId"
           element={ isAuthenticated && isOnboarded ? (
             <Layout showSidebar={true}>
               <ChatPage />
